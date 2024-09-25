@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Tag List</h1>
+  <a href="{% url 'tasks:tag-create' %}">Add new tag</a>
+  <ul>
+    {% for tag in tag_list %}
+      <li>
+        {{ tag.name }}
+        <a href="{% url 'tasks:tag-update' tag.pk %}">Edit</a>
+        <a href="{% url 'tasks:tag-delete' tag.pk %}">Delete</a>
+      </li>
+    {% empty %}
+      <li>No tags yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
