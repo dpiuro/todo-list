@@ -10,7 +10,7 @@ class TaskListView(generic.ListView):
     model = Task
     context_object_name = "task_list"
     template_name = "tasks/task_list.html"
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset().order_by("is_done", "-created_at")
@@ -41,6 +41,7 @@ class TagListView(generic.ListView):
     context_object_name = "tag_list"
     template_name = "tasks/tag_list.html"
     paginate_by = 5
+    ordering = ["name"]
 
 
 class TagCreateView(generic.CreateView):
