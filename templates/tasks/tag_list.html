@@ -1,17 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Tag List</h1>
-  <a href="{% url 'tasks:tag-create' %}">Add new tag</a>
-  <ul>
-    {% for tag in tag_list %}
-      <li>
-        {{ tag.name }}
-        <a href="{% url 'tasks:tag-update' tag.pk %}">Edit</a>
-        <a href="{% url 'tasks:tag-delete' tag.pk %}">Delete</a>
-      </li>
-    {% empty %}
-      <li>No tags yet.</li>
-    {% endfor %}
-  </ul>
+    <div class="row">
+      <div class="col-md-4">
+        <h1>Tag List</h1>
+        <a href="{% url 'tasks:tag-create' %}" class="btn btn-success mb-3 w-20">Add New Tag</a>
+
+        <ul class="list-group">
+          {% for tag in tag_list %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ tag.name }}
+              <div>
+                <a href="{% url 'tasks:tag-update' tag.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                <a href="{% url 'tasks:tag-delete' tag.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+              </div>
+            </li>
+          {% empty %}
+            <li class="list-group-item">No tags yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
 {% endblock %}
