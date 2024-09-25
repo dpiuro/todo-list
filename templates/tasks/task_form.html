@@ -1,10 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+      <div class="row">
+          <div class="col-md-6">
+              <h2 class="mb-4 text-center">{% if task %}Edit Task{% else %}Create New Task{% endif %}</h2>
+              <form method="post">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="btn btn-primary w-100">
+                      {% if task %}Update{% else %}Create{% endif %}
+                  </button>
+              </form>
+              <a href="{% url 'tasks:task-list' %}" class="btn btn-secondary w-100 mt-3">Back to Task List</a>
+          </div>
+      </div>
+  </div>
+{% endblock %}

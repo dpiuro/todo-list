@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import generic
+
+from .forms import TaskForm
 from .models import Task, Tag
 
 
@@ -17,14 +19,16 @@ class TaskListView(generic.ListView):
 
 class TaskCreateView(generic.CreateView):
     model = Task
-    fields = ["content", "deadline", "tags"]
-    success_url = reverse_lazy("tasks:task-list")
+    form_class = TaskForm
+    template_name = "tasks/task_form.html"
+    success_url = reverse_lazy('tasks:task-list')
 
 
 class TaskUpdateView(generic.UpdateView):
     model = Task
-    fields = ["content", "deadline", "tags", "is_done"]
-    success_url = reverse_lazy("tasks:task-list")
+    form_class = TaskForm
+    template_name = "tasks/task_form.html"
+    success_url = reverse_lazy('tasks:task-list')
 
 
 class TaskDeleteView(generic.DeleteView):

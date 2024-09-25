@@ -1,20 +1,63 @@
-{% extends "base_generic.html" %}
+{% extends "base.html" %}
 
 {% block content %}
   <h1>Todo List</h1>
-  <a href="{% url 'tasks:task-create' %}">Add new task</a>
-  <ul>
-    {% for task in task_list %}
-      <li>
-        {{ task.content }} - {% if task.is_done %}Done{% else %}Not Done{% endif %}
-        <a href="{% url 'tasks:task-update' task.pk %}">Edit</a>
-        <a href="{% url 'tasks:task-delete' task.pk %}">Delete</a>
-        <a href="{% url 'tasks:task-toggle' task.pk %}">
-          {% if task.is_done %}Undo{% else %}Complete{% endif %}
-        </a>
-      </li>
-    {% empty %}
-      <li>No tasks yet.</li>
-    {% endfor %}
-  </ul>
+  <a href="{% url 'tasks:task-create' %}" class="btn btn-primary mb-3">Add New Task</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Content</th>
+        <th>Tags</th>
+        <th>Created At</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in task_list %}
+        <tr>
+          <td>{{ task.content }}</td>
+          <td>
+            {% if task.tags.exists %}
+              {% for tag in task.tags.all %}
+                <span class="badge badge-info">{{ tag.name }}</span>
+              {% endfor %}
+            {% else %}
+              <span>No Tags</span>
+            {% endif %}
+          </td>
+          <td>{{ task.created_at|date:"Y-m-d H:i" }}</td>
+          <td>
+            {% if task.deadline %}
+              {{ task.deadline|date:"Y-m-d H:i" }}
+            {% else %}
+              No deadline
+            {% endif %}
+          </td>
+          <td>
+            {% if task.is_done %}
+              <span class="badge badge-success">Done</span>
+            {% else %}
+              <span class="badge badge-warning">Not Done</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'tasks:task-update' task.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+            <a href="{% url 'tasks:task-delete' task.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+            {% if task.is_done %}
+              <a href="{% url 'tasks:task-toggle' task.pk %}" class="btn btn-sm btn-outline-secondary">Undo</a>
+            {% else %}
+              <a href="{% url 'tasks:task-toggle' task.pk %}" class="btn btn-sm btn-outline-success">Complete</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No tasks available.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
