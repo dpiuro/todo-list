@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{% if tag %}Edit Tag{% else %}Create New Tag{% endif %}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">
+      {% if tag %}Update{% else %}Create{% endif %}
+    </button>
+  </form>
+  <a href="{% url 'tasks:tag-list' %}" class="btn btn-secondary">Back to Tag List</a>
+{% endblock %}
